@@ -1,0 +1,31 @@
+.quill .ql-container {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-color: var(--chakra-colors-reddit-gray-300) !important;
+    font-size: inherit;
+}
+.quill {
+    border-color: var(--chakra-colors-reddit-gray-300) !important;
+}
+.ql-toolbar {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background: var(--chakra-colors-reddit-gray-300) !important;
+    border-color: var(--chakra-colors-reddit-gray-300) !important;
+}
+
+.ql-toolbar .ql-formats button:hover .ql-stroke,
+.ql-toolbar .ql-formats .ql-stroke {
+    stroke: white !important;
+}
+.ql-toolbar .ql-formats button:hover .ql-fill,
+.ql-toolbar .ql-formats .ql-fill {
+    fill: white !important;
+}
+.ql-toolbar .ql-formats button {
+    opacity: 0.3;
+}
+.ql-toolbar .ql-formats button:hover .ql-fill,
+.ql-toolbar .ql-formats button:hover {
+    opacity: 1;
+}
