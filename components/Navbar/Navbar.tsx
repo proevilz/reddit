@@ -20,7 +20,6 @@ import { FaChevronDown } from 'react-icons/fa'
 
 const Navbar = () => {
     const { data: session, status } = useSession()
-    console.log(status)
     return (
         <Flex
             w='100%'

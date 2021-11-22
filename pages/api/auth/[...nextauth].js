@@ -2,9 +2,7 @@ import NextAuth from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import { requestGithubEmail } from '../../../utils/utils'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from 'db'
 
 export default NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -44,6 +42,7 @@ export default NextAuth({
         async session({ session, user, token }) {
             // Username isn't injected into session, so we need to add it
             session.user.username = user.username
+            session.user.id = user.id
             return session
         },
         async jwt({ token, user, account, profile, isNewUser }) {

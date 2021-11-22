@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Board {
+model Sub {
   id         String     @id @default(dbgenerated()) @map("_id") @db.ObjectId
   title      String?
   name       String     @unique
@@ -16,28 +16,37 @@ model Board {
   updatedAt  DateTime   @default(now())
   visibility Visibility @default(PUBLIC)
   nsfw       Boolean    @default(false)
+  Post       Post[]
 }
 
 model Post {
-  id         String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  createdAt  DateTime  @default(now())
-  title      String
-  body       String
-  published  Boolean   @default(false)
-  author     User      @relation(fields: [authorId], references: [id])
-  authorId   String    @db.ObjectId
-  categories Category  @default(POST)
-  comments   Comment[]
+  id        String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  createdAt DateTime  @default(now())
+  title     String
+  body      String
+  published Boolean   @default(false)
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String    @db.ObjectId
+  sub       Sub       @relation(fields: [subId], references: [id])
+  subId     String    @db.ObjectId
+  category  Category  @default(POST)
+  comments  Comment[]
 }
 
 model Comment {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  content   String
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
-  Post      Post?    @relation(fields: [postId], references: [id])
-  postId    String?  @db.ObjectId
+  id              String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  content         String
+  author          User     @relation(fields: [authorId], references: [id])
+  authorId        String   @db.ObjectId
+  parentComment   Comment  @relation("parentComment", references: [id], fields: [parentCommentId])
+  parentCommentId String   @db.ObjectId
+  Post            Post     @relation(fields: [postId], references: [id])
+  postId          String   @db.ObjectId
+
+
+
+  Comment Comment[] @relation("parentComment")
 }
 
 model User {

@@ -16,3 +16,15 @@ export const requestGithubEmail = async (accessToken: string) => {
         console.error('Failed to get user email address', error)
     }
 }
+
+export const toolbarConfig = [
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [
+        { list: 'ordered' },
+        { list: 'bullet' },
+        { indent: '-1' },
+        { indent: '+1' },
+    ],
+    ['link', 'image'],
+    ['clean'],
+]

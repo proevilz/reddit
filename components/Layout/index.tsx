@@ -1,10 +1,12 @@
+import React from 'react'
 import { Box } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import React from 'react'
 import Loading from '../Loading/Loading'
 import Navbar from '../Navbar/Navbar'
-
-const Layout = ({ children }: { children: JSX.Element }) => {
+interface Props {
+    children?: React.ReactNode
+}
+const Layout = (props: Props) => {
     const { status } = useSession({
         required: false,
     })
@@ -15,7 +17,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
     return (
         <>
             <Navbar />
-            <Box px='20px'>{children}</Box>
+            <Box px='20px'>{props.children}</Box>
         </>
     )
 }

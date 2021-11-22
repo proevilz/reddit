@@ -2,14 +2,14 @@ import React from 'react'
 import { Flex, Box, Divider, Button, Text } from '@chakra-ui/react'
 import router from 'next/router'
 import ModuleWrapper from '../ModuleWrapper'
-import { Board } from '@prisma/client'
-const CommunityModule = ({ board }: { board: Board }) => {
+import { Sub } from '@prisma/client'
+const CommunityModule = ({ sub }: { sub: Sub }) => {
     return (
         <ModuleWrapper>
             <Text fontSize='14px' fontWeight='bold' color='white' mb='24px'>
                 About community
             </Text>
-            <Text mb='10px'>Wecome to /r/{board.name}</Text>
+            <Text mb='10px'>Wecome to /r/{sub.name}</Text>
             <Flex mb='10px'>
                 <Box flex='auto'>
                     <Text fontSize='16px' lineHeight='1'>

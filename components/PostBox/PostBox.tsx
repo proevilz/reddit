@@ -1,14 +1,15 @@
 import React from 'react'
 import { Box, Button, Flex, Icon, Image, Text } from '@chakra-ui/react'
-import { ImBubble, ImShare2 } from 'react-icons/im'
+import { HiOutlineChat, HiOutlineShare, HiOutlineGift } from 'react-icons/hi'
 import PostVoteArrows from '../PostVoteArrows/PostVoteArrows'
+import { Post } from '.prisma/client'
 
-const PostBox = () => {
+const PostBox = ({ post }: { post: Post }) => {
     return (
         <Box
             w='100%'
-            bg='reddit.gray.100'
             mb='10px'
+            bg='reddit.gray.100'
             borderRadius='4px'
             borderColor='reddit.gray.300'
             borderWidth='1px'
@@ -28,46 +29,62 @@ const PostBox = () => {
                     <Text fontSize='12px' color='gray.300'>
                         Posted by u/ProEvilz 10 hours ago
                     </Text>
-                    <Text fontSize='18px' color='white'>
-                        New scuffed Reddit clone launches!
+                    <Text
+                        fontSize='18px'
+                        fontWeight='500'
+                        color='white'
+                        mb='10px'
+                    >
+                        {post?.title}
                     </Text>
-                    <Image
-                        m='20px auto'
-                        src={`https://picsum.photos/400/500?${Math.random()}`}
-                        alt='random image'
-                    />
+                    {post?.category === 'IMAGE' && (
+                        <Image
+                            m='20px auto'
+                            src={`https://picsum.photos/400/500?${Math.random()}`}
+                            alt='random image'
+                        />
+                    )}
+                    {post?.body && (
+                        <Box
+                            fontSize='sm'
+                            dangerouslySetInnerHTML={{ __html: post.body }}
+                        />
+                    )}
                     <Flex mt='20px'>
                         <Button variant='reddit-post'>
                             <Icon
-                                as={ImBubble}
+                                as={HiOutlineChat}
                                 mr='2'
                                 stroke='white'
                                 strokeWidth='1'
                                 fill='none'
+                                fontSize='20px'
                             />
                             <Text color='white' fontSize='12px'>
-                                200 Comments
+                                0 Comments
                             </Text>
                         </Button>
                         <Button variant='reddit-post'>
                             <Icon
-                                as={ImBubble}
+                                as={HiOutlineGift}
                                 mr='2'
                                 stroke='white'
                                 strokeWidth='1'
                                 fill='none'
+                                fontSize='20px'
                             />
                             <Text color='white' fontSize='12px'>
-                                200 Comments
+                                Award
                             </Text>
                         </Button>
                         <Button align='center' variant='reddit-post'>
                             <Icon
-                                as={ImShare2}
+                                as={HiOutlineShare}
                                 mr='2'
                                 stroke='white'
                                 strokeWidth='1'
                                 fill='none'
+                                fontSize='20px'
                             />
                             <Text color='white' fontSize='12px'>
                                 Share
