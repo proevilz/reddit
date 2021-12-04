@@ -1,12 +1,41 @@
-import React from 'react'
-import { Box, Button, Flex, Icon, Image, Text } from '@chakra-ui/react'
+import React, { useEffect } from 'react'
+import {
+    Avatar,
+    Box,
+    Button,
+    Flex,
+    Icon,
+    Image,
+    Link,
+    Text,
+} from '@chakra-ui/react'
 import { HiOutlineChat, HiOutlineShare, HiOutlineGift } from 'react-icons/hi'
 import PostVoteArrows from '../PostVoteArrows/PostVoteArrows'
-import { Post } from '.prisma/client'
+import NextLink from 'next/link'
+import { postWithAuthorAndSub } from 'types/dataTypes'
+import { formatDistance } from 'date-fns'
+import { useRouter } from 'next/router'
+import { slugify } from '@utils/utils'
 
-const PostBox = ({ post }: { post: Post }) => {
+interface props {
+    post: postWithAuthorAndSub
+    onSelectedPost?: (post: postWithAuthorAndSub) => void
+}
+const PostBox = ({ post, onSelectedPost }: props) => {
+    const router = useRouter()
+
+    const handleNavigateToPost = () => {
+        history.replaceState(
+            null,
+            'null',
+            `/r/${post.sub.name}/post/${post.id}/${slugify(post.title)}`
+        )
+        if (onSelectedPost) onSelectedPost(post)
+    }
+
     return (
         <Box
+            onClick={handleNavigateToPost}
             w='100%'
             mb='10px'
             bg='reddit.gray.100'
@@ -26,14 +55,55 @@ const PostBox = ({ post }: { post: Post }) => {
                     hasUpvoted={true}
                 />
                 <Box w='100%' p='2' pb='2px'>
-                    <Text fontSize='12px' color='gray.300'>
-                        Posted by u/ProEvilz 10 hours ago
-                    </Text>
+                    <Flex align='center'>
+                        {post.sub && (
+                            <>
+                                <NextLink href={`/r/${post.sub.name}`} passHref>
+                                    <Flex align='center'>
+                                        <Avatar
+                                            mr='10px'
+                                            size='xs'
+                                            name='Scuffed member'
+                                            src={
+                                                'https://picsum.photos/200?' +
+                                                Math.random()
+                                            }
+                                        />
+
+                                        <Link
+                                            fontSize='xs'
+                                            fontWeight='700'
+                                        >{`/r/${post.sub.name}`}</Link>
+                                    </Flex>
+                                </NextLink>
+                                <Box
+                                    w='2px'
+                                    h='2px'
+                                    bg='reddit.gray.400'
+                                    mx='6px'
+                                />
+                            </>
+                        )}
+                        <Text fontSize='12px' color='reddit.gray.400'>
+                            Posted by{' '}
+                            <NextLink
+                                href={`/u/${post.author.username}`}
+                                passHref
+                            >
+                                <Link>u/{post.author.username}</Link>
+                            </NextLink>{' '}
+                            {formatDistance(
+                                new Date(post.createdAt),
+                                new Date()
+                            )}{' '}
+                            ago
+                        </Text>
+                    </Flex>
                     <Text
                         fontSize='18px'
                         fontWeight='500'
                         color='white'
-                        mb='10px'
+                        my='10px'
                     >
                         {post?.title}
                     </Text>
@@ -55,12 +125,12 @@ const PostBox = ({ post }: { post: Post }) => {
                             <Icon
                                 as={HiOutlineChat}
                                 mr='2'
-                                stroke='white'
+                                stroke='reddit.gray.400'
                                 strokeWidth='1'
                                 fill='none'
                                 fontSize='20px'
                             />
-                            <Text color='white' fontSize='12px'>
+                            <Text color='reddit.gray.400' fontSize='12px'>
                                 0 Comments
                             </Text>
                         </Button>
@@ -68,12 +138,12 @@ const PostBox = ({ post }: { post: Post }) => {
                             <Icon
                                 as={HiOutlineGift}
                                 mr='2'
-                                stroke='white'
+                                stroke='reddit.gray.400'
                                 strokeWidth='1'
                                 fill='none'
                                 fontSize='20px'
                             />
-                            <Text color='white' fontSize='12px'>
+                            <Text color='reddit.gray.400' fontSize='12px'>
                                 Award
                             </Text>
                         </Button>
@@ -81,12 +151,12 @@ const PostBox = ({ post }: { post: Post }) => {
                             <Icon
                                 as={HiOutlineShare}
                                 mr='2'
-                                stroke='white'
+                                stroke='reddit.gray.400'
                                 strokeWidth='1'
                                 fill='none'
                                 fontSize='20px'
                             />
-                            <Text color='white' fontSize='12px'>
+                            <Text color='reddit.gray.400' fontSize='12px'>
                                 Share
                             </Text>
                         </Button>

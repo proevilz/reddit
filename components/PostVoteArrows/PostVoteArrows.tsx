@@ -5,21 +5,26 @@ interface PostVoteArrowsProps {
     votes: number
     hasUpvoted: boolean
     hasDownVoted: boolean
+    withBg?: boolean
+    horizontal?: boolean
 }
 const PostVoteArrows = ({
     votes,
     hasUpvoted,
     hasDownVoted,
+    withBg,
+    horizontal,
 }: PostVoteArrowsProps) => {
     return (
         <Flex
-            w='40px'
-            bg='reddit.gray.200'
-            direction='column'
+            w={horizontal ? 'auto' : '40px'}
+            bg={withBg ? 'reddit.gray.200' : ''}
+            direction={horizontal ? 'row' : 'column'}
+            align='center'
             borderRadius='4px'
         >
             <Icon
-                mt='10px'
+                mt={horizontal ? '' : '10px'}
                 fontSize='16px'
                 fill={hasUpvoted ? 'reddit.orange.100' : 'none'}
                 stroke={hasUpvoted ? 'reddit.orange.100' : 'white'}
@@ -29,6 +34,7 @@ const PostVoteArrows = ({
                 strokeWidth='1'
                 mx='auto'
                 as={ImArrowUp}
+                cursor='pointer'
             />
             <Text
                 fontSize='12px'
@@ -36,6 +42,7 @@ const PostVoteArrows = ({
                 fontWeight='bold'
                 color='white'
                 my='3px'
+                mx={horizontal ? '5px' : ''}
             >
                 {votes}
             </Text>
@@ -50,6 +57,7 @@ const PostVoteArrows = ({
                 }}
                 m='0 auto'
                 as={ImArrowUp}
+                cursor='pointer'
             />
         </Flex>
     )

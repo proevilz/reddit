@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import Loading from '../Loading/Loading'
 import Navbar from '../Navbar/Navbar'
@@ -15,10 +15,10 @@ const Layout = (props: Props) => {
         return <Loading />
     }
     return (
-        <>
+        <Flex direction='column'>
             <Navbar />
             <Box px='20px'>{props.children}</Box>
-        </>
+        </Flex>
     )
 }
 

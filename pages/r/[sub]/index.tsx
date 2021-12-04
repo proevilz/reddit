@@ -5,26 +5,40 @@ import { Box, Flex } from '@chakra-ui/react'
 import PostBox from '@components/PostBox/PostBox'
 import Layout from '@components/Layout'
 import Sidebar from '@components/Sidebar/Sidebar'
-import { SubWithPosts } from '../../../types/dataTypes'
+import { postWithAuthorAndSub, SubWithPosts } from '../../../types/dataTypes'
+import PostModal from '@components/PostModal'
+import { Portal } from '@chakra-ui/react'
 interface Props {
     subreddit: string
 }
 
 const Index = ({ subreddit }: Props) => {
     const [sub, setSub] = useState<SubWithPosts>(JSON.parse(subreddit))
-
+    const [isOpen, setIsOpen] = useState(false)
+    const [selectedPost, setSelectedPost] =
+        useState<postWithAuthorAndSub | null>(null)
     return (
         <Layout>
-            <>
-                <Flex justify='center' align='start' mt='100px'>
-                    <Box w='640px' minHeight='300px'>
-                        {sub?.Post?.map((post, index) => (
-                            <PostBox post={post} key={index} />
-                        ))}
-                    </Box>
-                    <Sidebar sub={sub} />
-                </Flex>
-            </>
+            {selectedPost && (
+                <PostModal
+                    post={selectedPost}
+                    onClose={() => setSelectedPost(null)}
+                />
+            )}
+            <Flex justify='center' align='start' mt='100px'>
+                <Box w='640px' minHeight='300px'>
+                    {sub?.Post?.map((post, index) => (
+                        <PostBox
+                            post={post}
+                            key={index}
+                            onSelectedPost={(post: postWithAuthorAndSub) =>
+                                setSelectedPost(post)
+                            }
+                        />
+                    ))}
+                </Box>
+                <Sidebar sub={sub} />
+            </Flex>
         </Layout>
     )
 }
@@ -40,7 +54,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 name: subName,
             },
             include: {
-                Post: true,
+                Post: {
+                    include: {
+                        author: {
+                            select: {
+                                username: true,
+                            },
+                        },
+                        sub: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                    },
+                },
             },
         })
 

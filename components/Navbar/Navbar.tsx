@@ -26,7 +26,7 @@ const Navbar = () => {
             px='3'
             py='2'
             bg='reddit.gray.100'
-            position='fixed'
+            position='sticky'
             top='0'
             borderBottomColor='reddit.gray.300'
             borderBottomWidth='1px'

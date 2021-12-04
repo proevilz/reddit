@@ -39,12 +39,12 @@ model Comment {
   content         String
   author          User     @relation(fields: [authorId], references: [id])
   authorId        String   @db.ObjectId
-  parentComment   Comment  @relation("parentComment", references: [id], fields: [parentCommentId])
-  parentCommentId String   @db.ObjectId
+  parentComment   Comment? @relation("parentComment", references: [id], fields: [parentCommentId])
+  parentCommentId String?  @db.ObjectId
   Post            Post     @relation(fields: [postId], references: [id])
   postId          String   @db.ObjectId
-
-
+  upVotes         Int      @default(0)
+  downVotes       Int      @default(0)
 
   Comment Comment[] @relation("parentComment")
 }

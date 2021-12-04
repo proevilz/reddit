@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
+import { ChevronDownIcon } from '@chakra-ui/icons'
+
 import {
     Box,
     Button,
@@ -12,12 +14,18 @@ import {
     TabPanel,
     TabPanels,
     Tabs,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
 } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import Layout from '@components/Layout'
 import Sidebar from '@components/Sidebar/Sidebar'
 import { toolbarConfig } from '@utils/utils'
 import { useRouter } from 'next/router'
+import Typeahead from '@components/typeahead'
 
 const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false,
@@ -26,8 +34,14 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 const Post: NextPage = () => {
     const [quillState, setQuillState] = useState('')
     const [title, setTitle] = useState('')
+    const [sub, setSub] = useState<null | string>(null)
     const router = useRouter()
-
+    useEffect(() => {
+        const currentSub = router.query.sub as string
+        if (currentSub) {
+            setSub(currentSub)
+        }
+    }, [router.query.sub])
     const addPost = async (draft = false) => {
         try {
             await fetch('/api/posts/create', {
@@ -44,14 +58,18 @@ const Post: NextPage = () => {
         <Layout>
             <Flex justify='center' align='start' mt='100px'>
                 <Flex direction='column'>
-                    <Flex direction='column'>
+                    <Flex direction='column' align='start'>
                         <Text>Create a post</Text>
                         <Divider my='10px' />
+                        <Box pos='relative' h='52px' zIndex='99'>
+                            <Typeahead sub={sub} />
+                        </Box>
                     </Flex>
                     <Box
                         w='640px'
                         bg='reddit.gray.100'
                         mb='10px'
+                        my='15px'
                         borderRadius='4px'
                     >
                         <Tabs isLazy isFitted>
@@ -108,7 +126,6 @@ const Post: NextPage = () => {
                                         </Button>
                                     </Flex>
                                 </TabPanel>
-
                                 <TabPanel>
                                     <p>two!</p>
                                 </TabPanel>
