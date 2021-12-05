@@ -22,7 +22,9 @@ const Navbar = () => {
     const { data: session, status } = useSession()
     return (
         <Flex
+            as='nav'
             w='100%'
+            zIndex='300'
             px='3'
             py='2'
             bg='reddit.gray.100'

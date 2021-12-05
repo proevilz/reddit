@@ -17,13 +17,16 @@ const Index = ({ subreddit }: Props) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedPost, setSelectedPost] =
         useState<postWithAuthorAndSub | null>(null)
+    const handleClose = () => {
+        setSelectedPost(null)
+        history.replaceState(null, 'null', `/r/${sub.name}`)
+    }
     return (
         <Layout>
             {selectedPost && (
-                <PostModal
-                    post={selectedPost}
-                    onClose={() => setSelectedPost(null)}
-                />
+                <Portal>
+                    <PostModal post={selectedPost} onClose={handleClose} />
+                </Portal>
             )}
             <Flex justify='center' align='start' mt='100px'>
                 <Box w='640px' minHeight='300px'>

@@ -16,9 +16,13 @@ interface props {
 }
 const Post = ({ postData }: props) => {
     // function to limit text to 100 characters
+    const router = useRouter()
 
     const post: postWithAuthorAndSub = JSON.parse(postData)
-
+    const handleClose = () => {
+        history.replaceState(null, 'null', `/r/${post.sub.name}`)
+        router.push('/r/[sub]', `/r/${router.query.sub}`)
+    }
     return (
         <>
             <Layout>
@@ -33,7 +37,12 @@ const Post = ({ postData }: props) => {
                                     />
                                     <Text>{limitText(post.title)}</Text>
                                 </Flex>
-                                <Button variant='unstyled'>X close</Button>
+                                <Button
+                                    variant='unstyled'
+                                    onClick={handleClose}
+                                >
+                                    X close
+                                </Button>
                             </Flex>
 
                             <Flex justify='space-between'>

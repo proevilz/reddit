@@ -13,14 +13,21 @@ const Sidebar = ({ sub }: props) => {
     const visible = useBreakpointValue({ sm: false, md: true })
     const router = useRouter()
     return visible ? (
-        <Flex direction='column'>
-            <Box ml='24px' w='310px'>
-                {router.pathname === '/' && <TopCommunitiesModule />}
+        <Box margin='32px 32px 32px 0' w='310px' as='aside'>
+            <Flex direction='column' h='100%'>
+                {/* {router.pathname === '/' && <TopCommunitiesModule />}
                 {sub && <CommunityModule sub={sub} />}
-                {router.pathname === '/' && <HomeModule />}
-                <FooterModule />
-            </Box>
-        </Flex>
+                {router.pathname === '/' && <HomeModule />} */}
+                <TopCommunitiesModule />
+
+                <HomeModule />
+                <Box flex='1 1 auto' pos='relative'>
+                    <Box pos='sticky' top='50px'>
+                        <FooterModule />
+                    </Box>
+                </Box>
+            </Flex>
+        </Box>
     ) : (
         <></>
     )

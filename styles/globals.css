@@ -29,3 +29,32 @@
 .ql-toolbar .ql-formats button:hover {
     opacity: 1;
 }
+
+.chakra-portal {
+    top: 57px;
+    background-color: rgba(28, 28, 28, 0.9);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    right: 0;
+    width: 100%;
+    z-index: 50;
+}
+
+.chakra-portal::after {
+    background: black;
+    bottom: 0;
+    content: '';
+    height: 100%;
+    left: 0;
+    margin: 0 auto;
+    max-width: 1280px;
+    position: fixed;
+    right: 15px;
+    top: 0;
+    width: calc(100% - 160px - 15px);
+}
+body {
+    overflow: hidden;
+}
